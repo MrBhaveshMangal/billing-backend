@@ -26,7 +26,7 @@ public class ItemEntity {
     private long id;
 
     @Column(unique=true)
-    private String itemid;
+    private String itemId;
 
     private String name;
 

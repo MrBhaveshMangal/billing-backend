@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Builder
 public class ItemResponse {
 
-    private String itemId;
+    private String itemid;
     private String name;
     private BigDecimal price;
     private String categoryid;
