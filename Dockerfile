@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY . .
 
+# 🔑 IMPORTANT: mvnw ko execute permission do
+RUN chmod +x mvnw
+
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
