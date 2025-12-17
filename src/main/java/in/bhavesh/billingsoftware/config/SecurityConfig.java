@@ -127,24 +127,24 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ PUBLIC APIs
+                        // ✅ PUBLIC (NO AUTH)
                         .requestMatchers(
-                                "/api/v1.0/login",
-                                "/api/v1.0/encode",
-                                "/api/v1.0/uploads/**"
+                                "/login",
+                                "/encode",
+                                "/uploads/**"
                         ).permitAll()
 
-                        // ✅ USER + ADMIN APIs
+                        // ✅ USER + ADMIN
                         .requestMatchers(
-                                "/api/v1.0/categories",
-                                "/api/v1.0/items",
-                                "/api/v1.0/orders/**",
-                                "/api/v1.0/payments/**",
-                                "/api/v1.0/dashboard"
+                                "/categories",
+                                "/items",
+                                "/orders/**",
+                                "/payments/**",
+                                "/dashboard"
                         ).hasAnyRole("USER", "ADMIN")
 
-                        // ✅ ADMIN APIs
-                        .requestMatchers("/api/v1.0/admin/**").hasRole("ADMIN")
+                        // ✅ ADMIN ONLY
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
@@ -155,6 +155,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     // ================= PASSWORD ENCODER =================
     @Bean
