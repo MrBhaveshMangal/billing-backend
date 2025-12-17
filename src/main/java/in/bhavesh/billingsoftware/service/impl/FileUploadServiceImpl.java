@@ -7,6 +7,7 @@ import io.minio.errors.MinioException;
 import io.minio.messages.DeleteObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 @Service
+@Profile("local")
 @RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
 
