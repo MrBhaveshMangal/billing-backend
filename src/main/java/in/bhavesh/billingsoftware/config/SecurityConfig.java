@@ -93,6 +93,7 @@ import in.bhavesh.billingsoftware.service.impl.AppUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -127,24 +128,27 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ PUBLIC (NO AUTH)
+                        // ✅ OPTIONS (CORS preflight)
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // ✅ PUBLIC
                         .requestMatchers(
-                                "/login",
-                                "/encode",
-                                "/uploads/**"
+                                "/api/v1.0/login",
+                                "/api/v1.0/encode",
+                                "/api/v1.0/uploads/**"
                         ).permitAll()
 
                         // ✅ USER + ADMIN
                         .requestMatchers(
-                                "/categories",
-                                "/items",
-                                "/orders/**",
-                                "/payments/**",
-                                "/dashboard"
+                                "/api/v1.0/categories",
+                                "/api/v1.0/items",
+                                "/api/v1.0/orders/**",
+                                "/api/v1.0/payments/**",
+                                "/api/v1.0/dashboard"
                         ).hasAnyRole("USER", "ADMIN")
 
                         // ✅ ADMIN ONLY
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1.0/admin/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
@@ -155,6 +159,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
     // ================= PASSWORD ENCODER =================

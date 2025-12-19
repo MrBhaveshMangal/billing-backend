@@ -31,10 +31,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        if (path.equals("/login") || path.startsWith("/uploads")) {
+        if (
+                path.equals("/api/v1.0/login") ||
+                        path.startsWith("/api/v1.0/uploads") ||
+                        request.getMethod().equals("OPTIONS")
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
         final String authHeader = request.getHeader("Authorization");
 
