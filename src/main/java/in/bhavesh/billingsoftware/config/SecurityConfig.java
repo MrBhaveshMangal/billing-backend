@@ -146,10 +146,10 @@ public class SecurityConfig {
                                 "/api/v1.0/orders/**",
                                 "/api/v1.0/payments/**",
                                 "/api/v1.0/dashboard"
-                        ).hasAnyRole("USER", "ADMIN")
+                        ).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
                         // ✅ ADMIN ONLY
-                        .requestMatchers("/api/v1.0/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1.0/admin/**").hasRole("ROLE_ADMIN")
 
                         .anyRequest().authenticated()
                 )
