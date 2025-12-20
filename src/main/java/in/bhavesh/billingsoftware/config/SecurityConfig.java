@@ -154,6 +154,7 @@ public class SecurityConfig {
 
 
 
+
     // ================= PASSWORD ENCODER =================
     @Bean
     public PasswordEncoder passwordEncoder() {
