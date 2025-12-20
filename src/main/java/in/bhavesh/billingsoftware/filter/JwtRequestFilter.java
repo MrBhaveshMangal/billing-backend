@@ -29,32 +29,31 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String path = request.getServletPath();
+        String path = request.getRequestURI();
 
+        // 🔥 ABSOLUTE SKIP FOR LOGIN & PUBLIC
         if (
-                path.equals("/api/v1.0/login") ||
-                        path.equals("/api/v1.0/encode") ||
-                        path.startsWith("/api/v1.0/uploads")
+                path.endsWith("/login") ||
+                        path.endsWith("/encode") ||
+                        path.contains("/uploads") ||
+                        request.getMethod().equalsIgnoreCase("OPTIONS")
         ) {
             filterChain.doFilter(request, response);
             return;
         }
 
-
-
         final String authHeader = request.getHeader("Authorization");
 
-        String email = null;
-        String jwt = null;
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-            email = jwtUtil.extractUsername(jwt);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
+        String jwt = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwt);
+
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails =
-                    appUserDetailsService.loadUserByUsername(email);
+            UserDetails userDetails = appUserDetailsService.loadUserByUsername(email);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken token =
@@ -68,4 +67,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }
