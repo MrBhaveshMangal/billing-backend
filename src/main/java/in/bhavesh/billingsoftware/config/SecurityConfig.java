@@ -140,16 +140,17 @@ public class SecurityConfig {
 
 
                         // ✅ USER + ADMIN
-                        .requestMatchers(
-                                "/api/v1.0/categories",
-                                "/api/v1.0/items",
-                                "/api/v1.0/orders/**",
-                                "/api/v1.0/payments/**",
-                                "/api/v1.0/dashboard"
-                        ).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers(
+                                        "/api/v1.0/categories",
+                                        "/api/v1.0/items",
+                                        "/api/v1.0/orders/**",
+                                        "/api/v1.0/payments/**",
+                                        "/api/v1.0/dashboard"
+                                ).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
-                        // ✅ ADMIN ONLY
-                        .requestMatchers("/api/v1.0/admin/**").hasRole("ROLE_ADMIN")
+// ✅ ADMIN ONLY (🔥 YAHI FIX HAI 🔥)
+                                .requestMatchers("/api/v1.0/admin/**")
+                                .hasAuthority("ROLE_ADMIN")
 
                         .anyRequest().authenticated()
                 )
