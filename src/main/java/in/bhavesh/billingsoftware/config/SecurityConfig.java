@@ -138,6 +138,7 @@ public class SecurityConfig {
                                 "/api/v1.0/uploads/**"
                         ).permitAll()
 
+
                         // ✅ USER + ADMIN
                         .requestMatchers(
                                 "/api/v1.0/categories",

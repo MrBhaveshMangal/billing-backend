@@ -33,12 +33,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (
                 path.equals("/api/v1.0/login") ||
-                        path.startsWith("/api/v1.0/uploads") ||
-                        request.getMethod().equals("OPTIONS")
+                        path.equals("/api/v1.0/encode") ||
+                        path.startsWith("/api/v1.0/uploads")
         ) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
 
         final String authHeader = request.getHeader("Authorization");
