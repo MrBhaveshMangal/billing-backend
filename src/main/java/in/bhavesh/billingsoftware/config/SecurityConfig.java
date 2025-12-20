@@ -126,6 +126,11 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+
+                // 🔥 YE 2 LINE SABSE IMPORTANT HAI
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -137,7 +142,7 @@ public class SecurityConfig {
                                 "/api/v1.0/uploads/**"
                         ).permitAll()
 
-                        // ✅ EVERYTHING ELSE = ADMIN ONLY
+                        // ✅ ALL OTHER API → ADMIN ONLY
                         .requestMatchers("/api/v1.0/**")
                         .hasAuthority("ROLE_ADMIN")
 
@@ -150,6 +155,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
 
