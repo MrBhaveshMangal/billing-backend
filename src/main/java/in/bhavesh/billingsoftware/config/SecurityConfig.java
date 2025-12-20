@@ -142,9 +142,14 @@ public class SecurityConfig {
                                 "/api/v1.0/uploads/**"
                         ).permitAll()
 
-                        // ✅ ALL OTHER API → ADMIN ONLY
-                        .requestMatchers("/api/v1.0/**")
-                        .hasAuthority("ROLE_ADMIN")
+                        // ✅ PROTECTED (EXCLUDE LOGIN)
+                        .requestMatchers(
+                                "/api/v1.0/dashboard",
+                                "/api/v1.0/categories/**",
+                                "/api/v1.0/items/**",
+                                "/api/v1.0/orders/**",
+                                "/api/v1.0/payments/**"
+                        ).hasAuthority("ROLE_ADMIN")
 
                         .anyRequest().authenticated()
                 )
